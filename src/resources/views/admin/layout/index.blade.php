@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -22,7 +22,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link nav-logo-name d-none d-sm-block" href="/"><i class="fa fa-cloud"></i> 快乐二级域名分发系统
+                <a class="nav-link nav-logo-name d-none d-sm-block" href="/"><i class="fa fa-cloud"></i> 二级域名分发系统
                     V{{ config('version') }}</a>
                 <a class="nav-link nav-logo-name d-sm-none" href="/"><i class="fa fa-cloud"></i> 域名分发</a>
             </li>

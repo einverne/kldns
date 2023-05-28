@@ -27,7 +27,7 @@ Trait DnsHttp
         ]);
     }
 
-    private function request($method = 'POST', $url, $header = [])
+    private function request($method, $url, $header = []): array
     {
         try {
             $res = $this->client->request($method, $url, $header);

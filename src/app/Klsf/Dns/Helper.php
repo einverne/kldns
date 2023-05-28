@@ -14,7 +14,7 @@ class Helper
     /**
      * @return array
      */
-    public static function getList()
+    public static function getList(): array
     {
         $list = [];
         $dir = __DIR__ . '/';

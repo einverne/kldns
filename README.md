@@ -50,6 +50,5 @@
 2、在使用中有任何问题，欢迎反馈给我，可以用以下联系方式跟我交流
 
 * Github:https://github.com/klsf/kldns
-* 邮件(815856515#qq.com, 把#换成@)
-* QQ: 815856515
-* QQ交流群：[383286818](http://shang.qq.com/wpa/qunwpa?idkey=5c50f31eb84481f05bbbeca6a0759a2e9763118f04dce5c6ca2e23652cb2a58b")
+* 邮件(admin#client.einverne.info, 把#换成@)
+* Telegram 群：<https://t.me/+RUBhyY60iVcl6hdX>

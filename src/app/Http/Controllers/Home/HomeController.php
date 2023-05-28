@@ -60,7 +60,7 @@ class HomeController extends Controller
         } else {
             list($ret, $error) = Helper::sendVerifyEmail($user);
             if ($ret) {
-                $result = ['status' => 0, 'message' => "已将认证邮件发送到{$user->email}，请注意查收！"];
+                $result = ['status' => 0, 'message' => "已将认证邮件发送到 {$user->email}，请注意查收！"];
             } else {
                 $result['message'] = "发送邮件失败：" . $error;
             }

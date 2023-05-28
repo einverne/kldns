@@ -79,16 +79,16 @@ class Helper
     }
 
     //检查域名前缀是否可用
-    public static function checkDomainName($name)
+    public static function checkDomainName($name): array
     {
         $name = strtolower(trim($name));
         $reserve = explode(',', config('sys.reserve_domain_name'));
         if (strlen($name) < 1) {
             return [false, '请输入域名前缀'];
-        } elseif (!preg_match('/^[a-z0-9\_\-]+$/', $name)) {
+        } elseif (!preg_match('/^(?!-)[a-zA-Z0-9-]{1,63}(?<!-)$/', $name)) {
             return [false, '域名前缀格式不正确'];
         } elseif (in_array($name, $reserve)) {
-            return [false, '对不起，此前缀暂不对外开放'];
+            return [false, '对不起，此前缀暂不开放解析'];
         } else {
             return [$name, null];
         }
@@ -138,8 +138,8 @@ class Helper
     //发送激活邮件
     public static function sendVerifyEmail(User $user): array
     {
-        $url = "http://{$_SERVER['HTTP_HOST']}/verify?code=" . Crypt::encrypt($user->sid);
-        return static::sendEmail($user->email, '注册会员激活邮件', 'email.verify', [
+        $url = "https://{$_SERVER['HTTP_HOST']}/verify?code=" . Crypt::encrypt($user->sid);
+        return static::sendEmail($user->email, '会员激活邮件', 'email.verify', [
             'username' => $user->username,
             'webName' => config('sys.web.name', 'app.name'),
             'url' => $url
@@ -147,7 +147,7 @@ class Helper
     }
 
     //删除解析记录
-    public static function deleteRecord(DomainRecord $record)
+    public static function deleteRecord(DomainRecord $record): bool
     {
         if ($domain = $record->domain) {
             if ($dns = $domain->dnsConfig) {

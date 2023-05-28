@@ -81,7 +81,7 @@ class LoginController extends Controller
             try {
                 return $this->login($request);
             } catch (\Exception $e) {
-                return ['status' => -1, 'message' => '账号或者密码不正确'];
+                return ['status' => -1, 'message' => '账号或者密码不正确!'];
             }
         } else {
             return view('admin.login');

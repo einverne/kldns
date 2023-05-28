@@ -57,7 +57,7 @@ $app->afterBootstrapping(\Illuminate\Foundation\Bootstrap\LoadConfiguration::cla
     if (!$app->runningInConsole()) {
         $uri = request()->getRequestUri();
     }
-    if (trim($uri, '/') === 'install') {
+    if (trim($uri ?? "", '/') === 'install') {
 
     } else {
         if (!config('mysql') && !$app->runningInConsole()) {

@@ -5,13 +5,13 @@ CREATE TABLE `kldns_configs` (
   PRIMARY KEY (`k`),
   UNIQUE KEY `k` (`k`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-INSERT INTO `kldns_configs` VALUES ('array_mail', '{\"host\":\"smtp.qq.com\",\"port\":\"465\",\"encryption\":\"ssl\",\"username\":\"815856515@qq.com\",\"password\":\"jxvizloqrcxkertg\",\"test\":\"123456@qq.com\"}');
+INSERT INTO `kldns_configs` VALUES ('array_mail', '{\"host\":\"smtp.qq.com\",\"port\":\"465\",\"encryption\":\"ssl\",\"username\":\"test@qq.com\",\"password\":\"jxvizloqrcxkertg\",\"test\":\"123456@qq.com\"}');
 INSERT INTO `kldns_configs` VALUES ('array_user', '{\"reg\":\"1\",\"email\":\"1\",\"point\":\"100\"}');
 INSERT INTO `kldns_configs` VALUES ('array_web', '{\"name\":\"\\u5feb\\u4e50\\u4e8c\\u7ea7\\u57df\\u540d\\u5206\\u53d1\",\"title\":\"\\u5feb\\u4e50\\u4e8c\\u7ea7\\u57df\\u540d\\u5206\\u53d1 - \\u514d\\u8d39\\u4e8c\\u7ea7\\u57df\\u540d\\u6ce8\\u518c\",\"keywords\":\"\\u5feb\\u4e50\\u4e8c\\u7ea7\\u57df\\u540d\\u5206\\u53d1,\\u514d\\u8d39\\u57df\\u540d,\\u514d\\u8d39\\u4e8c\\u7ea7\\u57df\\u540d,\\u514d\\u8d39\\u5907\\u6848\\u57df\\u540d\",\"description\":\"\\u5feb\\u4e50\\u4e8c\\u7ea7\\u57df\\u540d\\u5206\\u53d1\\u7cfb\\u7edf\\uff0c\\u63d0\\u4f9b\\u514d\\u8d39\\u4e8c\\u7ea7\\u57df\\u540d\\u5206\\u53d1\"}');
 INSERT INTO `kldns_configs` VALUES ('html_header', '<div class=\"alert alert-primary\">\r\n本站提供免费二级域名用于测试、学习等，请勿将二级域名用于一切非法用途，一切责任自负！\r\n</div>');
 INSERT INTO `kldns_configs` VALUES ('html_home', '本站提供免费二级域名用于测试、学习等，请勿将二级域名用于一切非法用途，一切责任自负！');
-INSERT INTO `kldns_configs` VALUES ('index_urls', '源码下载|https://github.com/klsf/kldns\r\nQQ交流群|http://shang.qq.com/wpa/qunwpa?idkey=5ee7688c3971cb53cfacc63f9f7fc2f3ca6d41b6f13fc8bc002e310ed1e0a94a');
-INSERT INTO `kldns_configs` VALUES ('reserve_domain_name', 'www,w,m,3g,4g,qq');
+INSERT INTO `kldns_configs` VALUES ('index_urls', 'Telegram交流群|https://t.me/+RUBhyY60iVcl6hdX');
+INSERT INTO `kldns_configs` VALUES ('reserve_domain_name', 'www,w,m,3g,4g,qq,web,board,pt,bbs,forum,img,pic,image');
 DROP TABLE IF EXISTS `kldns_dns_configs`;
 CREATE TABLE `kldns_dns_configs` (
   `dns` varchar(150) NOT NULL,

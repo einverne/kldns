@@ -20,6 +20,7 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
@@ -148,14 +149,15 @@ class IndexController extends Controller
         if (strlen($username) < 3) {
             $result['message'] = '请输入要找回的账号或邮箱地址';
         } elseif (strtolower($request->post('code')) !== Session::get('captcha_code')) {
+            Log::debug("验证码不正确：{$request->post('code')}");
             $result['message'] = '验证码不正确';
         } elseif (!$user = User::where('gid', '>', 99)->where(function ($query) use ($username) {
             $query->where('username', $username)->orWhere('email', $username);
         })->first()) {
             $result['message'] = '账号或者邮箱地址不存在';
         } else {
-            $url = "http://{$_SERVER['HTTP_HOST']}/password?code=" . Crypt::encrypt($user->sid);
-            list($ret, $error) = Helper::sendEmail($user->email, '重置用户密码', 'email.password', [
+            $url = "https://{$_SERVER['HTTP_HOST']}/password?code=" . Crypt::encrypt($user->sid);
+            list($ret, $error) = Helper::sendEmail($user->email, '重置密码', 'email.password', [
                 'username' => $user->username,
                 'webName' => config('sys.web.name', 'app.name'),
                 'url' => $url
@@ -260,7 +262,7 @@ class IndexController extends Controller
         // 获取验证码的内容
         $phrase = $builder->getPhrase();
         // 把内容存入session
-        Session::flash('captcha_code', $phrase);
+        Session::flash('captcha_code', strtolower($phrase));
         // 生成图片
         $builder->output();
         $content = ob_get_clean();

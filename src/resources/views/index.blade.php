@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('sys.web.title',config('sys.web.name','网站首页')) }}</title>
+    <title>{{ config('sys.web.title',config('sys.web.name','首页')) }}</title>
     <meta name="keywords" content="{{ config('sys.web.keywords') }}"/>
     <meta name="description" content="{{ config('sys.web.description') }}"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
@@ -68,7 +68,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" style="height: 3rem" name="name"
                                placeholder="输入你想要的二级域名前缀">
-                        <select name="did" class="form-control" style="flex: none;width: 100px;height: 3rem">
+                        <select name="did" class="form-control" style="flex: none;width: 135px;height: 3rem">
                             @foreach(\App\Helper::getAvailableDomains() as $domain)
                                 <option value="{{ $domain->did }}">.{{ $domain->domain }}</option>
                             @endforeach
