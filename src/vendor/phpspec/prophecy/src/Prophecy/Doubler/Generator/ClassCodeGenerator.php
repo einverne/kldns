@@ -11,6 +11,9 @@
 
 namespace Prophecy\Doubler\Generator;
 
+use Prophecy\Doubler\Generator\Node\ReturnTypeNode;
+use Prophecy\Doubler\Generator\Node\TypeNodeAbstract;
+
 /**
  * Class code creator.
  * Generates PHP code for specific class node tree.
@@ -19,14 +22,9 @@ namespace Prophecy\Doubler\Generator;
  */
 class ClassCodeGenerator
 {
-    /**
-     * @var TypeHintReference
-     */
-    private $typeHintReference;
-
-    public function __construct(TypeHintReference $typeHintReference = null)
+    // Used to accept an optional first argument with the deprecated Prophecy\Doubler\Generator\TypeHintReference so careful when adding a new argument in a minor version.
+    public function __construct()
     {
-        $this->typeHintReference = $typeHintReference ?: new TypeHintReference();
     }
 
     /**
@@ -43,8 +41,11 @@ class ClassCodeGenerator
         $classname = array_pop($parts);
         $namespace = implode('\\', $parts);
 
-        $code = sprintf("class %s extends \%s implements %s {\n",
-            $classname, $class->getParentClass(), implode(', ',
+        $code = sprintf("%sclass %s extends \%s implements %s {\n",
+            $class->isReadOnly() ? 'readonly ': '',
+            $classname,
+            $class->getParentClass(),
+            implode(', ',
                 array_map(function ($interface) {return '\\'.$interface;}, $class->getInterfaces())
             )
         );
@@ -62,7 +63,7 @@ class ClassCodeGenerator
         return sprintf("namespace %s {\n%s\n}", $namespace, $code);
     }
 
-    private function generateMethod(Node\MethodNode $method)
+    private function generateMethod(Node\MethodNode $method): string
     {
         $php = sprintf("%s %s function %s%s(%s)%s {\n",
             $method->getVisibility(),
@@ -70,48 +71,37 @@ class ClassCodeGenerator
             $method->returnsReference() ? '&':'',
             $method->getName(),
             implode(', ', $this->generateArguments($method->getArguments())),
-            $this->getReturnType($method)
+            ($ret = $this->generateTypes($method->getReturnTypeNode())) ? ': '.$ret : ''
         );
         $php .= $method->getCode()."\n";
 
         return $php.'}';
     }
 
-    /**
-     * @return string
-     */
-    private function getReturnType(Node\MethodNode $method)
+    private function generateTypes(TypeNodeAbstract $typeNode): string
     {
-        if (version_compare(PHP_VERSION, '7.1', '>=')) {
-            if ($method->hasReturnType()) {
-                return $method->hasNullableReturnType()
-                    ? sprintf(': ?%s', $method->getReturnType())
-                    : sprintf(': %s', $method->getReturnType());
-            }
+        if (!$typeNode->getTypes()) {
+            return '';
         }
 
-        if (version_compare(PHP_VERSION, '7.0', '>=')) {
-            return $method->hasReturnType() && $method->getReturnType() !== 'void'
-                ? sprintf(': %s', $method->getReturnType())
-                : '';
+        // When we require PHP 8 we can stop generating ?foo nullables and remove this first block
+        if ($typeNode->canUseNullShorthand()) {
+            return sprintf( '?%s', $typeNode->getNonNullTypes()[0]);
+        } else {
+            return join('|', $typeNode->getTypes());
         }
-
-        return '';
     }
 
-    private function generateArguments(array $arguments)
+    /**
+     * @param list<Node\ArgumentNode> $arguments
+     *
+     * @return list<string>
+     */
+    private function generateArguments(array $arguments): array
     {
-        $typeHintReference = $this->typeHintReference;
-        return array_map(function (Node\ArgumentNode $argument) use ($typeHintReference) {
-            $php = '';
+        return array_map(function (Node\ArgumentNode $argument){
 
-            if (version_compare(PHP_VERSION, '7.1', '>=')) {
-                $php .= $argument->isNullable() ? '?' : '';
-            }
-
-            if ($hint = $argument->getTypeHint()) {
-                $php .= $typeHintReference->isBuiltInParamTypeHint($hint) ? $hint : '\\'.$hint;
-            }
+            $php = $this->generateTypes($argument->getTypeNode());
 
             $php .= ' '.($argument->isPassedByReference() ? '&' : '');
 

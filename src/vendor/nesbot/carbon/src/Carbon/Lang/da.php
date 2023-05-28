@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-/**
+/*
  * Authors:
  * - Rune Mønnike
  * - François B
@@ -17,6 +17,8 @@
  * - JD Isaacks
  * - Jens Herlevsen
  * - Ulrik McArdle (mcardle)
+ * - Frederik Sauer (FrittenKeeZ)
+ * - Janus Bahs Jacquet (kokoshneta)
  */
 return [
     'year' => ':count år|:count år',
@@ -24,13 +26,13 @@ return [
     'y' => ':count år|:count år',
     'month' => ':count måned|:count måneder',
     'a_month' => 'en måned|:count måneder',
-    'm' => ':count mån.',
+    'm' => ':count mdr.',
     'week' => ':count uge|:count uger',
     'a_week' => 'en uge|:count uger',
     'w' => ':count u.',
     'day' => ':count dag|:count dage',
     'a_day' => ':count dag|:count dage',
-    'd' => 'en d.',
+    'd' => ':count d.',
     'hour' => ':count time|:count timer',
     'a_hour' => 'en time|:count timer',
     'h' => ':count t.',
@@ -40,10 +42,17 @@ return [
     'second' => ':count sekund|:count sekunder',
     'a_second' => 'få sekunder|:count sekunder',
     's' => ':count s.',
-    'ago' => ':time siden',
+    'ago' => 'for :time siden',
     'from_now' => 'om :time',
     'after' => ':time efter',
     'before' => ':time før',
+    'diff_now' => 'nu',
+    'diff_today' => 'i dag',
+    'diff_today_regexp' => 'i dag(?:\\s+kl.)?',
+    'diff_yesterday' => 'i går',
+    'diff_yesterday_regexp' => 'i går(?:\\s+kl.)?',
+    'diff_tomorrow' => 'i morgen',
+    'diff_tomorrow_regexp' => 'i morgen(?:\\s+kl.)?',
     'formats' => [
         'LT' => 'HH:mm',
         'LTS' => 'HH:mm:ss',
@@ -62,9 +71,9 @@ return [
     ],
     'ordinal' => ':number.',
     'months' => ['januar', 'februar', 'marts', 'april', 'maj', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'december'],
-    'months_short' => ['jan', 'feb', 'mar', 'apr', 'maj', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
+    'months_short' => ['jan.', 'feb.', 'mar.', 'apr.', 'maj.', 'jun.', 'jul.', 'aug.', 'sep.', 'okt.', 'nov.', 'dec.'],
     'weekdays' => ['søndag', 'mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag'],
-    'weekdays_short' => ['søn', 'man', 'tir', 'ons', 'tor', 'fre', 'lør'],
+    'weekdays_short' => ['søn.', 'man.', 'tir.', 'ons.', 'tor.', 'fre.', 'lør.'],
     'weekdays_min' => ['sø', 'ma', 'ti', 'on', 'to', 'fr', 'lø'],
     'first_day_of_week' => 1,
     'day_of_first_week_of_year' => 4,

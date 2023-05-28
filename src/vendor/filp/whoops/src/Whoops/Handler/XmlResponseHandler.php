@@ -23,7 +23,7 @@ class XmlResponseHandler extends Handler
 
     /**
      * @param  bool|null  $returnFrames
-     * @return bool|$this
+     * @return bool|static
      */
     public function addTraceToOutput($returnFrames = null)
     {
@@ -43,11 +43,12 @@ class XmlResponseHandler extends Handler
         $response = [
             'error' => Formatter::formatExceptionAsDataArray(
                 $this->getInspector(),
-                $this->addTraceToOutput()
+                $this->addTraceToOutput(),
+                $this->getRun()->getFrameFilters()
             ),
         ];
 
-        echo $this->toXml($response);
+        echo self::toXml($response);
 
         return Handler::QUIT;
     }

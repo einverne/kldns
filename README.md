@@ -1,17 +1,16 @@
-## 由于发现这个项目用途的确不大，现停止更新维护！
-## 个人博客地址：https://klsf.cc
-
 # 快乐二级域名分发系统 （kldns v3.1.0）
 
 ## 此系统有哪些特点
+
 * 目前支持的域名解析平台有
-    *  dnspod
-    *  cloudxns
-    *  aliyun
-    *  dnscom
-    *  dnsla
-    *  cloudxns
-    *  DnsDun
+    * dnspod
+    * cloudxns
+    * aliyun
+    * dnscom
+    * dnsla
+    * cloudxns
+    * DnsDun
+    * Cloudflare
 * 多用户、多域名、多平台同时存在
 * 界面简单、舒适，操作简单
 ## 3.1.0 (20190803)
@@ -19,13 +18,14 @@
 * 2、增加对dnsdun.com解析平台的支持
 * 2、修复已知的一些问题
 ## 3.0.1 (20190419)
-* 1、程序框架由ThinkPHP 改为Laravel 5.8
+* 1、程序框架由 ThinkPHP 改为Laravel 5.8
 * 2、增加对cloudxns平台的支持
 * 3、增加用户组功能
 * 4、更新一些平台的接口
 
 ## 安装说明
-* 1、程序的框架是Laravel 5.8，因此需要环境满足以下要求：
+
+* 1、程序的框架是 Laravel 5.8，因此需要环境满足以下要求：
     * PHP >= 7.1.3
     * PHP OpenSSL 扩展
     * PHP PDO 扩展

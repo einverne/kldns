@@ -57,7 +57,7 @@ abstract class AbstractSurrogate implements SurrogateInterface
             return false;
         }
 
-        return false !== strpos($value, sprintf('%s/1.0', strtoupper($this->getName())));
+        return str_contains($value, sprintf('%s/1.0', strtoupper($this->getName())));
     }
 
     /**
@@ -95,8 +95,8 @@ abstract class AbstractSurrogate implements SurrogateInterface
         try {
             $response = $cache->handle($subRequest, HttpKernelInterface::SUB_REQUEST, true);
 
-            if (!$response->isSuccessful()) {
-                throw new \RuntimeException(sprintf('Error when rendering "%s" (Status code is %s).', $subRequest->getUri(), $response->getStatusCode()));
+            if (!$response->isSuccessful() && Response::HTTP_NOT_MODIFIED !== $response->getStatusCode()) {
+                throw new \RuntimeException(sprintf('Error when rendering "%s" (Status code is %d).', $subRequest->getUri(), $response->getStatusCode()));
             }
 
             return $response->getContent();
@@ -109,6 +109,8 @@ abstract class AbstractSurrogate implements SurrogateInterface
                 throw $e;
             }
         }
+
+        return '';
     }
 
     /**

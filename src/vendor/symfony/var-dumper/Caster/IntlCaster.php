@@ -16,6 +16,8 @@ use Symfony\Component\VarDumper\Cloner\Stub;
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  * @author Jan Schädlich <jan.schaedlich@sensiolabs.de>
+ *
+ * @final since Symfony 4.4
  */
 class IntlCaster
 {
@@ -100,7 +102,7 @@ class IntlCaster
                     'SIGNIFICANT_DIGIT_SYMBOL' => $c->getSymbol(\NumberFormatter::SIGNIFICANT_DIGIT_SYMBOL),
                     'MONETARY_GROUPING_SEPARATOR_SYMBOL' => $c->getSymbol(\NumberFormatter::MONETARY_GROUPING_SEPARATOR_SYMBOL),
                 ]
-             ),
+            ),
         ];
 
         return self::castError($c, $a);
