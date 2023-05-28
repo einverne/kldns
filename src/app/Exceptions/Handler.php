@@ -76,15 +76,15 @@ class Handler extends ExceptionHandler
     private function response(Request $request, int $status, string $message = null)
     {
         $message = explode('@', $message);
-        $url = isset($message[1]) ? $message[1] : null;
+        $url = $message[1] ?? null;
         $message = $message[0];
         if ($status < 0) {
-            return Response::create(['status' => $status, 'message' => $message], 200);
+            return response(['status' => $status, 'message' => $message], 200);
         }
         if (!Helper::isPjax() && ($request->isXmlHttpRequest() || strpos($request->path(), 'api/') === 0)) {
-            return Response::create(['status' => $status, 'message' => $message], 200);
+            return response(['status' => $status, 'message' => $message], 200);
         } else {
-            return Response::create(view('error')->with(['status' => $status, 'error' => $message, 'url' => $url]));
+            return response(view('error')->with(['status' => $status, 'error' => $message, 'url' => $url]));
         }
     }
 }
