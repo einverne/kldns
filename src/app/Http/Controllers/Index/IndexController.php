@@ -247,7 +247,7 @@ class IndexController extends Controller
     {
         $phrase = new PhraseBuilder();
         // 设置验证码位数
-        $code = $phrase->build(5);
+        $code = $phrase->build(4);
         // 生成验证码图片的Builder对象，配置相应属性
         $builder = new CaptchaBuilder($code, $phrase);
         // 设置背景颜色
