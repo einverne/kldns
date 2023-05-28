@@ -1,48 +1,42 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: me
- * Date: 2019/4/16
- * Time: 11:24
- */
 
 namespace App\Klsf\Dns;
-
 
 use GuzzleHttp\Client;
 
 class Cloudflare implements DnsInterface
 {
     use DnsHttp;
+
     private $url = "https://api.cloudflare.com/client/v4/";
     private $apiKey;
     private $email;
 
-    function deleteDomainRecord($RecordId, $DomainId, $Domain)
+    function deleteDomainRecord($RecordId, $DomainId, $Domain): array
     {
-        list($ret, $error) = $this->getResult("zones/{$DomainId}/dns_records/{$RecordId}", [], 'DELETE');
+        list($ret, $error) = $this->getResult("zones/$DomainId/dns_records/$RecordId", [], 'DELETE');
         return $ret ? [true, null] : [false, $error];
     }
 
-    function updateDomainRecord($RecordId, $Name, $Type, $Value, $LineId, $DomainId = null, $Domain = null)
+    function updateDomainRecord($RecordId, $Name, $Type, $Value, $LineId, $DomainId = null, $Domain = null): array
     {
         $params = [];
         $params['name'] = $Name;
         $params['type'] = $Type;
         $params['content'] = $Value;
-        $params['proxied'] = $LineId ? true : false;
-        list($ret, $error) = $this->getResult("zones/{$DomainId}/dns_records/{$RecordId}", $params, 'PUT');
+        $params['proxied'] = (bool)$LineId;
+        list($ret, $error) = $this->getResult("zones/$DomainId/dns_records/$RecordId", $params, 'PUT');
         return $ret ? [true, null] : [false, $error];
     }
 
-    function addDomainRecord($Name, $Type, $Value, $LineId, $DomainId = null, $Domain = null)
+    function addDomainRecord($Name, $Type, $Value, $LineId, $DomainId = null, $Domain = null): array
     {
         $params = [];
         $params['name'] = $Name;
         $params['type'] = $Type;
         $params['content'] = $Value;
-        $params['proxied'] = $LineId ? true : false;
-        list($ret, $error) = $this->getResult("zones/{$DomainId}/dns_records", $params, 'POST');
+        $params['proxied'] = (bool)$LineId;
+        list($ret, $error) = $this->getResult("zones/$DomainId/dns_records", $params, 'POST');
         if (!$ret) return [false, $error];
         if (isset($ret['result']['id'])) {
             $record = $ret['result'];
@@ -55,9 +49,9 @@ class Cloudflare implements DnsInterface
         return [false, '添加域名记录失败'];
     }
 
-    function getDomainRecordInfo($RecordId, $DomainId = null, $Domain = null)
+    function getDomainRecordInfo($RecordId, $DomainId = null, $Domain = null): array
     {
-        list($ret, $error) = $this->getResult("zones/{$DomainId}/dns_records/{$RecordId}");
+        list($ret, $error) = $this->getResult("zones/$DomainId/dns_records/$RecordId");
         if (!$ret) return [false, $error];
         if (isset($ret['result']['id'])) {
             $record = $ret['result'];
@@ -72,9 +66,9 @@ class Cloudflare implements DnsInterface
         return [false, '获取域名记录详情失败'];
     }
 
-    function getDomainRecords($DomainId = null, $Domain = null)
+    function getDomainRecords($DomainId = null, $Domain = null): array
     {
-        list($ret, $error) = $this->getResult("zones/{$DomainId}/dns_records");
+        list($ret, $error) = $this->getResult("zones/$DomainId/dns_records");
         if (!$ret) return [false, $error];
 
         if (isset($ret['result'])) {
@@ -93,7 +87,7 @@ class Cloudflare implements DnsInterface
         return [false, '获取域名记录列表失败'];
     }
 
-    function getDomainList()
+    function getDomainList(): array
     {
         list($ret, $error) = $this->getResult("zones?page=1&per_page=50");
         if (!$ret) return [false, $error];
@@ -111,7 +105,7 @@ class Cloudflare implements DnsInterface
         return [false, '获取域名列表失败'];
     }
 
-    function getRecordLine($_domainId = null, $_domain = null)
+    function getRecordLine($_domainId = null, $_domain = null): array
     {
         $list = [];
         $list[] = array(
@@ -125,7 +119,7 @@ class Cloudflare implements DnsInterface
         return $list;
     }
 
-    function check()
+    function check(): array
     {
         list($ret, $error) = $this->getDomainList();
         return $ret ? [true, null] : [false, $error];
@@ -133,8 +127,8 @@ class Cloudflare implements DnsInterface
 
     function config(array $config)
     {
-        $this->email = isset($config['Email']) ? $config['Email'] : null;
-        $this->apiKey = isset($config['ApiKey']) ? $config['ApiKey'] : null;
+        $this->email = $config['Email'] ?? null;
+        $this->apiKey = $config['ApiKey'] ?? null;
 
         $this->client = new Client([
             'timeout' => 30,
@@ -148,7 +142,7 @@ class Cloudflare implements DnsInterface
         ]);
     }
 
-    function configInfo()
+    function configInfo(): array
     {
         return [
             [
@@ -164,7 +158,7 @@ class Cloudflare implements DnsInterface
         ];
     }
 
-    private function getResult($action, $params = [], $method = 'GET')
+    private function getResult($action, $params = [], $method = 'GET'): array
     {
         list($res, $error) = $this->request($method, $this->url . $action, [
             'body' => json_encode($params)
