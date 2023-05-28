@@ -95,10 +95,10 @@ class Helper
     }
 
     //发送邮件
-    public static function sendEmail($to, $subject, $view, $array = [])
+    public static function sendEmail($to, $subject, $view, $array = []): array
     {
         if (!config('sys.mail.host') || !config('sys.mail.port') || !config('sys.mail.username') || !config('sys.mail.password')) {
-            return [false, "未配置邮箱信息"];
+            return [false, "未配置 SMTP 发送邮箱信息"];
         } else {
             $mailConfig = config('mail');
             $mailConfig['host'] = config('sys.mail.host');
@@ -132,11 +132,11 @@ class Helper
     //检查邮件格式是否正确
     public static function checkEmail($email)
     {
-        return preg_match('/^[a-zA-Z0-9\.\-\_]+\@([a-zA-Z0-9\_\-]+\.)+[a-zA-Z]+$/i', $email);
+        return preg_match('/^[a-zA-Z0-9\.\-\_\+]+\@([a-zA-Z0-9\_\-]+\.)+[a-zA-Z]+$/i', $email);
     }
 
     //发送激活邮件
-    public static function sendVerifyEmail(User $user)
+    public static function sendVerifyEmail(User $user): array
     {
         $url = "http://{$_SERVER['HTTP_HOST']}/verify?code=" . Crypt::encrypt($user->sid);
         return static::sendEmail($user->email, '注册会员激活邮件', 'email.verify', [
@@ -162,7 +162,7 @@ class Helper
     }
 
     //获取首页链接
-    public static function getIndexUrls()
+    public static function getIndexUrls(): array
     {
         $list = [];
         $str = config('sys.index_urls');
